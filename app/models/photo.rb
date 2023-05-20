@@ -12,4 +12,10 @@
 #  owner_id       :integer
 #
 class Photo < ApplicationRecord
+  belongs_to :owner, { :class_name => "User" }
+  has_many  :comments, { :dependent => :destroy }
+  has_many  :likes, { :dependent => :destroy }
+
+  validates :owner_id, { :presence => true }
+  validates :image, { :presence => true }
 end

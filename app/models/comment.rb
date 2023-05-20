@@ -10,4 +10,10 @@
 #  photo_id   :integer
 #
 class Comment < ApplicationRecord
+  belongs_to :author, { :class_name => "User", :counter_cache => true }
+  belongs_to :photo, { :counter_cache => true }
+
+  validates :photo_id, { :presence => true }
+  validates :body, { :presence => true }
+  validates :author_id, { :presence => true }
 end
