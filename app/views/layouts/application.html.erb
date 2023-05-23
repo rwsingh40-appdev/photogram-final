@@ -15,6 +15,18 @@
   </head>
 
   <body>
+    <ul>
+      <li><a href="/users">All users</a></li>
+      <li><a href="/photos">All photos</a></li>
+      <% if @current_user.present? %>
+        <li><a href="/edit_user_profile"><%=@current_user.username%></a></li>
+        <li><a href="/user_sign_out">Sign out</a></li>
+      <% else %>
+        <li><a href="/user_sign_in">Sign in</a></li>
+        <li><a href="/user_sign_up">Sign up</a></li>
+      <% end %>
+
+    </ul>
     <%= yield %>
     <p>Raj's photogram final project</p>
   </body>
