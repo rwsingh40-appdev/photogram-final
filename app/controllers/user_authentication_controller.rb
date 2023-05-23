@@ -7,6 +7,8 @@ class UserAuthenticationController < ApplicationController
   end
 
   def show
+    the_username = params.fetch("path_id")
+    @target_user = User.where({:username => the_username}).first
     render ({ :template => "user_authentication/show.html.erb"})
   end
 

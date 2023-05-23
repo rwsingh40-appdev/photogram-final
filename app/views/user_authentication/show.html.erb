@@ -1,1 +1,25 @@
-<h1>my user show page</h1>
+<h1><%=@target_user.username%></h1>
+
+<dl>
+  <dt>Private</dt>
+  <dd><%=@target_user.private%></dd>
+  <dt>Followers</dt>
+  <dd>
+    <div>
+      received requests: <%=@target_user.received_requests.count%>
+    </div>
+    <div>
+      sent requests: <%=@target_user.sent_requests.count%>
+    </div>
+    <div>
+      followers: <%=@target_user.followers.count%>
+    </div>
+    <div>
+      <a href="/">
+        PLACEHOLDER - Unfollow
+      </a>
+    </div>
+  </dd>
+  <dt>Following</dt>
+  <dd>leaders: <%=@target_user.leaders.count%></dd>
+</dl>
