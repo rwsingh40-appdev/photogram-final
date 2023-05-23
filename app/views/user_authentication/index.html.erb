@@ -1,1 +1,35 @@
-<h1>my user index page</h1>
+<h1>List of users</h1>
+
+<!-- table for list of users -->
+
+<table border = "1">
+  <tr>
+    <th>Username</th>
+    <th>Private?</th>
+    <th>Click to follow</th>
+    <th>Click for more details</th>
+  </tr>
+  <%User.all.order({:username => :asc}).each do |a_user| %>
+    <tr>
+      <td><%=a_user.username%></td>
+      <td><%=a_user.private%></td>
+      <td>
+        <% if @current_user.present? %>
+                <form action="/insert_follow_request" method ="post">
+          <input type="hidden" name="query_status" value= "sent">
+          <input type="hidden" name="query_recipient_id" value= <%=a_user.id%>>
+          <input type="hidden" name="query_sender_id" value= <%=@current_user.id%>>
+          <button>Follow</button>
+        </form>
+        <% else %>
+        <p>Sign in to follow other users</p>
+        <% end %>
+      </td>
+      <td>
+        <a href="/users/<%=a_user.username%>">Show details</a>
+      </td>
+    </tr>
+
+  <% end %>
+
+</table>
