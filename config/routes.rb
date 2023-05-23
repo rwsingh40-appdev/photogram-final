@@ -84,6 +84,11 @@ Rails.application.routes.draw do
   #Show Details
   get("/users/:path_id", { :controller => "user_authentication", :action => "show" }) 
 
+  #Liked photos, feed, discover pages
+  get("/users/:path_id/liked_photos", { :controller => "user_authentication", :action => "liked_photos" }) 
+  get("/users/:path_id/feed", { :controller => "user_authentication", :action => "feed" }) 
+  get("/users/:path_id/discover", { :controller => "user_authentication", :action => "discover" }) 
+
 
   # SIGN UP FORM
   get("/user_sign_up", { :controller => "user_authentication", :action => "sign_up_form" })        

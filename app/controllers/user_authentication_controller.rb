@@ -8,7 +8,18 @@ class UserAuthenticationController < ApplicationController
 
   def show
     render ({ :template => "user_authentication/show.html.erb"})
-    
+  end
+
+  def liked_photos
+    render ({ :template => "user_authentication/liked_photos.html.erb"})
+  end
+
+  def feed
+    render ({ :template => "user_authentication/feed.html.erb"})
+  end
+
+  def discover
+    render ({ :template => "user_authentication/discover.html.erb"})
   end
   
   def sign_in_form
