@@ -14,10 +14,9 @@
       Add a new photo
     </h2>
 
-    <form action="/insert_photo" method="post">
+    <form action="/insert_photo" method="post" class="form-horizontal" enctype="multipart/form-data">
       <div>
-      <label for=""></label>
-      <input type="text">
+        image upload placeholder
       </div>
       <div>
         <label for="caption_box">
@@ -37,75 +36,30 @@
   <div>
     <table border="1">
       <tr>
-        <th>
-          ID
-        </th>
-
-        <th>
-          Caption
-        </th>
-
-        <th>
-          Image
-        </th>
-
-        <th>
-          Owner
-        </th>
-
-        <th>
-          Comments count
-        </th>
-
-        <th>
-          Likes count
-        </th>
-
-        <th>
-          Created at
-        </th>
-
-        <th>
-          Updated at
-        </th>
-
-        <th>
-        </th>
+        <th>Image</th>
+        <th>Caption</th>
+        <th>Owner</th>
+        <th>Posted</th>
+        <th>Likes</th>
+        <th>Click to show details</th>
       </tr>
-
       <% @list_of_photos.each do |a_photo| %>
         <tr>
           <td>
-            <%= a_photo.id %>
+            <img src="<%= a_photo.image %>" alt="">
           </td>
-
           <td>
             <%= a_photo.caption %>
           </td>
-
           <td>
-            <%= a_photo.image %>
+            <%= a_photo.owner.username %>
           </td>
-
-          <td>
-            <%= a_photo.owner_id %>
-          </td>
-
-          <td>
-            <%= a_photo.comments_count %>
-          </td>
-
-          <td>
-            <%= a_photo.likes_count %>
-          </td>
-
           <td>
             <%= time_ago_in_words(a_photo.created_at) %> ago
           </td>
           <td>
-            <%= time_ago_in_words(a_photo.updated_at) %> ago
+            <%= a_photo.likes_count %>
           </td>
-
           <td>
             <a href="/photos/<%= a_photo.id %>">
               Show details
