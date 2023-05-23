@@ -15,14 +15,23 @@
       <td><%=translate(a_user.private.class)%></td>
       <td>
         <% if @current_user.present? %>
-                <form action="/insert_follow_request" method ="post">
-          <input type="hidden" name="query_status" value= "sent">
-          <input type="hidden" name="query_recipient_id" value= <%=a_user.id%>>
-          <input type="hidden" name="query_sender_id" value= <%=@current_user.id%>>
-          <button>Follow</button>
-        </form>
+          <% if FollowRequest.where({:sender_id => @current_user.id, :recipient_id => a_user.id}).first.present? %>
+            <% if FollowRequest.where({:sender_id => @current_user.id, :recipient_id => a_user.id}).first.status == "pending" %>
+              Request sent. <a href="/users">Cancel</a>
+            <% elsif FollowRequest.where({:sender_id => @current_user.id, :recipient_id => a_user.id}).first.status == "accepted" %>
+              <a href="/photos">Unfollow</a>
+            <% end %>
+          <% else %>
+            <% # does not exist else %>
+            <form action="/insert_follow_request" method ="post">
+              <input type="hidden" name="query_status" value= "pending">
+              <input type="hidden" name="query_recipient_id" value= <%=a_user.id%>>
+              <input type="hidden" name="query_sender_id" value= <%=@current_user.id%>>
+              <button>Follow</button>
+            </form>
+          <% end %>
         <% else %>
-        <p>Sign in to follow other users</p>
+          <p>Sign in to follow other users</p>
         <% end %>
       </td>
       <td>
