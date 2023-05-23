@@ -23,3 +23,14 @@
   <dt>Following</dt>
   <dd>leaders: <%=@target_user.leaders.count%></dd>
 </dl>
+
+<ul>
+<li><a href="/users/<%=@target_user.username%>">Profile</a></li>
+<li><a href="/users/<%=@target_user.username%>/liked_photos">Liked photos</a></li>
+<li><a href="/users/<%=@target_user.username%>/feed">Feed</a></li>
+<li><a href="/users/<%=@target_user.username%>/discover">Discover</a></li>
+</ul>
+
+<h1>Own photos (<%=@target_user.photos.count%>)</h1>
+
+placeholder table from photos index but different
