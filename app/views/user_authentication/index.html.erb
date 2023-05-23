@@ -20,7 +20,7 @@
             <% if current_follow_request.status == "pending" %>
               Request sent. <a href="/delete_follow_request/<%=current_follow_request.id%>">Cancel</a>
             <% elsif current_follow_request.status == "accepted" %>
-              <a href="/photos">Unfollow</a>
+              <a href="/delete_follow_request/<%=current_follow_request.id%>">Unfollow</a>
             <% end %>
           <% else %>
             <% # does not exist else %>
