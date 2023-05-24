@@ -24,9 +24,9 @@ Rails.application.routes.draw do
   post("/insert_like", { :controller => "likes", :action => "create" })
           
   # READ
-  get("/likes", { :controller => "likes", :action => "index" })
+  # get("/likes", { :controller => "likes", :action => "index" })
   
-  get("/likes/:path_id", { :controller => "likes", :action => "show" })
+  # get("/likes/:path_id", { :controller => "likes", :action => "show" })
   
   # UPDATE
   
@@ -43,9 +43,9 @@ Rails.application.routes.draw do
   post("/insert_comment", { :controller => "comments", :action => "create" })
           
   # READ
-  get("/comments", { :controller => "comments", :action => "index" })
+  # get("/comments", { :controller => "comments", :action => "index" })
   
-  get("/comments/:path_id", { :controller => "comments", :action => "show" })
+  # get("/comments/:path_id", { :controller => "comments", :action => "show" })
   
   # UPDATE
   
@@ -62,9 +62,9 @@ Rails.application.routes.draw do
   post("/insert_follow_request", { :controller => "follow_requests", :action => "create" })
           
   # READ
-  get("/follow_requests", { :controller => "follow_requests", :action => "index" })
+  # get("/follow_requests", { :controller => "follow_requests", :action => "index" })
   
-  get("/follow_requests/:path_id", { :controller => "follow_requests", :action => "show" })
+  # get("/follow_requests/:path_id", { :controller => "follow_requests", :action => "show" })
   
   # UPDATE
   
