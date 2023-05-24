@@ -13,14 +13,20 @@ class UserAuthenticationController < ApplicationController
   end
 
   def liked_photos
+    the_username = params.fetch("path_id")
+    @target_user = User.where({:username => the_username}).first
     render ({ :template => "user_authentication/liked_photos.html.erb"})
   end
 
   def feed
+    the_username = params.fetch("path_id")
+    @target_user = User.where({:username => the_username}).first
     render ({ :template => "user_authentication/feed.html.erb"})
   end
 
   def discover
+    the_username = params.fetch("path_id")
+    @target_user = User.where({:username => the_username}).first
     render ({ :template => "user_authentication/discover.html.erb"})
   end
   

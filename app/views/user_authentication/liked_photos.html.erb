@@ -1,1 +1,52 @@
-<h1>my liked photos page</h1>
+<h1><%=@target_user.username%></h1>
+
+<dl>
+  <dt>Private</dt>
+  <dd><%=@target_user.private%></dd>
+  <dt>Followers</dt>
+  <dd>
+    <div>
+      received requests: <%=@target_user.received_requests.count%>
+    </div>
+    <div>
+      accepted requests: <%=@target_user.received_requests.accepted_request.count%>
+    </div>
+    <div>
+      followers: <%=@target_user.followers.count%>
+    </div>
+  </dd>
+  <dt>Following</dt>
+  <dd>leaders: <%=@target_user.leaders.count%></dd>
+</dl>
+
+<ul>
+  <li><a href="/users/<%=@target_user.username%>">Profile</a></li>
+  <li><a href="/users/<%=@target_user.username%>/liked_photos">Liked photos</a></li>
+  <li><a href="/users/<%=@target_user.username%>/feed">Feed</a></li>
+  <li><a href="/users/<%=@target_user.username%>/discover">Discover</a></li>
+</ul>
+
+<h2>Liked photos (<%=@target_user.likes.count%>)</h2>
+
+<table border="1">
+  <tr>
+    <th>Image</th>
+    <th>Owner</th>
+    <th>Caption</th>
+    <th>Posted</th>
+    <th>Likes</th>
+    <th>Click for more details</th>
+  </tr>
+  <% @target_user.likes.each do |a_like| %>
+  <tr>
+    <td><img src="<%=a_like.photo.image%>" alt=""></td>
+    <td><%=a_like.photo.owner.username%></td>
+    <td><%=a_like.photo.caption%></td>
+    <td><%=time_ago_in_words(a_like.photo.created_at)%> ago</td>
+    <td><%=a_like.photo.likes_count%></td>
+    <td><a href="/photos/<%=a_like.photo.id%>">Show details</a></td>
+  </tr>
+    
+  <% end %>
+
+</table>
