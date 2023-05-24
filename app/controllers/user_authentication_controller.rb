@@ -13,6 +13,8 @@ class UserAuthenticationController < ApplicationController
     if @target_user.private
       if FollowRequest.where({ :status => "accepted", :recipient_id => @target_user.id, :sender_id => @current_user.id }).present?
         render ({ :template => "user_authentication/show.html.erb" })
+      elsif @target_user == @current_user
+        render ({ :template => "user_authentication/show.html.erb" })
       else
         redirect_to("/users", { :alert => "You're not authorized for that." })
       end

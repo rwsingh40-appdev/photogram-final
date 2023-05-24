@@ -53,6 +53,28 @@
     </dd>
     <dt>Following</dt>
     <dd>leaders: <%=@target_user.leaders.count%></dd>
+    <% if @target_user == @current_user %>
+      <dt>Edit user</dt>
+      <dd>
+        <form action="/modify_user" method="post">
+          <input type="hidden" id="email" name="query_email" value=<%=@current_user.email%>>
+          <input type="hidden" id="password" name="query_password" value=<%=@current_user.password%>>
+          <input type="hidden" id="password_confirmation" name="query_password_confirmation" value=<%=@current_user.password_confirmation%>>
+          <input type="hidden" id="likes_count" name="query_likes_count" value=<%=@current_user.likes_count%>>
+          <input type="hidden" id="comments_count" name="query_comments_count" value=<%=@current_user.comments_count%>>
+
+          <label for="username">Username</label>
+          <input type="text" id="username" name="query_username" value=<%=@current_user.username%>>
+          <label for="private_checkbox">Private?</label>
+          <% if @current_user.private %>
+            <input type="checkbox" id="private_checkbox" name="query_private" checked>
+          <% else %>
+            <input type="checkbox" id="private_checkbox" name="query_private">
+          <% end %>
+          <button>Update user</button>
+        </form>
+      </dd>
+    <% end %>
   </dl>
 
   <ul>
