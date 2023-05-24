@@ -25,6 +25,8 @@ class User < ApplicationRecord
   has_many  :sent_requests, { :class_name => "FollowRequest", :foreign_key => "sender_id", :dependent => :destroy }
 
   has_many :followers, { :through => :received_requests, :source => :sender}
+  # has_many :followers, -> { accepted_request }, :through => :received_requests, :source => :sender
+
   has_many :leaders, { :through => :sent_requests, :source => :recipient }
 
   validates :username, { :presence => true }
