@@ -25,12 +25,33 @@
 </dl>
 
 <ul>
-<li><a href="/users/<%=@target_user.username%>">Profile</a></li>
-<li><a href="/users/<%=@target_user.username%>/liked_photos">Liked photos</a></li>
-<li><a href="/users/<%=@target_user.username%>/feed">Feed</a></li>
-<li><a href="/users/<%=@target_user.username%>/discover">Discover</a></li>
+  <li><a href="/users/<%=@target_user.username%>">Profile</a></li>
+  <li><a href="/users/<%=@target_user.username%>/liked_photos">Liked photos</a></li>
+  <li><a href="/users/<%=@target_user.username%>/feed">Feed</a></li>
+  <li><a href="/users/<%=@target_user.username%>/discover">Discover</a></li>
 </ul>
 
-<h1>Own photos (<%=@target_user.photos.count%>)</h1>
+<h2>Own photos (<%=@target_user.photos.count%>)</h2>
 
-placeholder table from photos index but different
+<table border="1">
+  <tr>
+    <th>Image</th>
+    <th>Owner</th>
+    <th>Caption</th>
+    <th>Posted</th>
+    <th>Likes</th>
+    <th>Click for more details</th>
+  </tr>
+  <% @target_user.photos.each do |a_photo| %>
+  <tr>
+    <td><img src="<%=a_photo.image%>" alt=""></td>
+    <td><%=a_photo.owner.username%></td>
+    <td><%=a_photo.caption%></td>
+    <td><%=time_ago_in_words(a_photo.created_at)%> ago</td>
+    <td><%=a_photo.likes_count%></td>
+    <td><a href="/photos/<%=a_photo.id%>">Show details</a></td>
+  </tr>
+    
+  <% end %>
+
+</table>
