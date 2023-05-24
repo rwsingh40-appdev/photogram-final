@@ -20,7 +20,7 @@
         Owner
       </dt>
       <dd>
-        <%= @the_photo.owner_id %>
+        <%= @the_photo.owner.username %>
       </dd>
 
       <dt>
@@ -69,7 +69,7 @@
         <dt>Delete photo</dt>
         <dd>
           <a href="/delete_photo/<%= @the_photo.id %>">
-            Delete photo</a>
+            Delete this photo</a>
         </dd>
       <% end %>
 
