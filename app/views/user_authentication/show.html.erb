@@ -14,44 +14,75 @@
     <div>
       followers: <%=@target_user.followers.count%>
     </div>
-    <div>
-      <a href="/">
-        PLACEHOLDER - Unfollow
-      </a>
-    </div>
-  </dd>
-  <dt>Following</dt>
-  <dd>leaders: <%=@target_user.leaders.count%></dd>
-</dl>
+    <div> <!--follow/unfollow for other users and pending follow requests for current user-->
+      <% if @target_user == @current_user %>
+        <h4>Pending follow requests</h4>
+        <ul>
+          <% @current_user.received_requests.where({:status => "pending"}).each do |a_pending_request| %>
+            <li><%=a_pending_request.sender.username%></li>
+            <li><%=a_pending_request.id%></li>
+            <form action="/modify_follow_request/<%=a_pending_request.id%>" method="post">
+              <input type="hidden" id="status" name="query_status" value="accepted">
+              <input type="hidden" id="recipient_id" name="query_recipient_id" value=<%=@current_user.id%>>
+              <input type="hidden" id="sender_id" name="query_sender_id" value=<%=a_pending_request.sender.id%>>
+              <button>Accept</button>
+            </form>
+            <form action="/modify_follow_request/<%=a_pending_request.id%>" method="post">
+              <input type="hidden" id="status" name="query_status" value="rejected">
+              <input type="hidden" id="recipient_id" name="query_recipient_id" value=<%=@current_user.id%>>
+              <input type="hidden" id="sender_id" name="query_sender_id" value=<%=a_pending_request.sender.id%>>
+              <button>Reject</button>
+            </form>
+          <% end %>
+        </ul>
+      <% else %>
+        <% if FollowRequest.where({:recipient_id => @target_user.id, :sender_id => @current_user.id}).present? %>
+          <%current_follow_request = FollowRequest.where({:recipient_id => @target_user.id, :sender_id => @current_user.id}).first%>
+          <a href="/delete_follow_request/<%=current_follow_request.id%>">Unfollow</a>
+        <% else %>
+          <form action="/insert_follow_request" method ="post">
+            <input type="hidden" name="query_status" value= "pending">
+            <input type="hidden" name="query_recipient_id" value= <%=@target_user.id%>>
+            <input type="hidden" name="query_sender_id" value= <%=@current_user.id%>>
+            <button>Follow</button>
+          <% end %>
 
-<ul>
-  <li><a href="/users/<%=@target_user.username%>">Profile</a></li>
-  <li><a href="/users/<%=@target_user.username%>/liked_photos">Liked photos</a></li>
-  <li><a href="/users/<%=@target_user.username%>/feed">Feed</a></li>
-  <li><a href="/users/<%=@target_user.username%>/discover">Discover</a></li>
-</ul>
+        <% end %>
 
-<h2>Own photos (<%=@target_user.photos.count%>)</h2>
+      </div>
+    </dd>
+    <dt>Following</dt>
+    <dd>leaders: <%=@target_user.leaders.count%></dd>
+  </dl>
 
-<table border="1">
-  <tr>
-    <th>Image</th>
-    <th>Owner</th>
-    <th>Caption</th>
-    <th>Posted</th>
-    <th>Likes</th>
-    <th>Click for more details</th>
-  </tr>
-  <% @target_user.photos.each do |a_photo| %>
-  <tr>
-    <td><img src="<%=a_photo.image%>" alt=""></td>
-    <td><%=a_photo.owner.username%></td>
-    <td><%=a_photo.caption%></td>
-    <td><%=time_ago_in_words(a_photo.created_at)%> ago</td>
-    <td><%=a_photo.likes_count%></td>
-    <td><a href="/photos/<%=a_photo.id%>">Show details</a></td>
-  </tr>
-    
-  <% end %>
+  <ul>
+    <li><a href="/users/<%=@target_user.username%>">Profile</a></li>
+    <li><a href="/users/<%=@target_user.username%>/liked_photos">Liked photos</a></li>
+    <li><a href="/users/<%=@target_user.username%>/feed">Feed</a></li>
+    <li><a href="/users/<%=@target_user.username%>/discover">Discover</a></li>
+  </ul>
 
-</table>
+  <h2>Own photos (<%=@target_user.photos.count%>)</h2>
+
+  <table border="1">
+    <tr>
+      <th>Image</th>
+      <th>Owner</th>
+      <th>Caption</th>
+      <th>Posted</th>
+      <th>Likes</th>
+      <th>Click for more details</th>
+    </tr>
+    <% @target_user.photos.each do |a_photo| %>
+      <tr>
+        <td><img src="<%=a_photo.image%>" alt=""></td>
+        <td><%=a_photo.owner.username%></td>
+        <td><%=a_photo.caption%></td>
+        <td><%=time_ago_in_words(a_photo.created_at)%> ago</td>
+        <td><%=a_photo.likes_count%></td>
+        <td><a href="/photos/<%=a_photo.id%>">Show details</a></td>
+      </tr>
+
+    <% end %>
+
+  </table>
