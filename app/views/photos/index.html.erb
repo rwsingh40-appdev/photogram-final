@@ -10,15 +10,17 @@
   <div>
 
     <form action="/insert_photo" method="post" class="form-horizontal" enctype="multipart/form-data">
-      <div>
-        image upload placeholder
-      </div>
-      <div>
-        <label for="caption_box">
-          Caption
-        </label>
-        <textarea id="caption_box" name="query_caption" placeholder = "Enter a caption for the photo..."></textarea>
-      </div>
+      <input type="hidden" id="comments_count" name="query_comments_count" value="0">
+      <input type="hidden" id="likes_count" name="query_likes_count" value="0">
+      <input type="hidden" id="owner_id" name="query_owner_id" value=<%=@current_user.id%>>
+
+      <input type="file" id="image" name="query_image" class="form-control">
+
+      <label for="caption_box">
+        Caption
+      </label>
+      <textarea id="caption_box" name="query_caption" placeholder = "Enter a caption for the photo..."></textarea>
+
       <button>
         Add photo
       </button>
