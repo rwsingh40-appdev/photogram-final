@@ -36,13 +36,33 @@
       <dd>
         <%= @the_photo.likes_count %>
       </dd>
-
       <dt>
         Comments count
       </dt>
       <dd>
         <%= @the_photo.comments_count %>
       </dd>
+      <dt>Fans</dt>
+      <dd>
+        <%fan_id_array = @the_photo.likes.map_relation_to_array(:fan_id)%>
+        <%fan_array = User.where({:id => fan_id_array}).map_relation_to_array(:username)%>
+        <%=fan_array.to_sentence%>
+      </dd>
+      <dt>Add a fan</dt>
+      <% if fan_id_array.include? @current_user.id %>
+
+        <dd><a href="/delete_like/<%=Like.where({:fan_id => @current_user.id}).where({:photo_id => @the_photo.id}).first.id%>">Unlike</a></dd>
+
+      <% else %>
+        <dd>
+          <form action="/insert_like" method="post">
+            <input type="hidden" id="fan_id" name="query_fan_id" value=<%=@current_user.id%>>
+            <input type="hidden" id="photo_id" name="query_photo_id" value=<%=@the_photo.id%>>
+            <button>Like</button>
+          </form>
+        </dd>
+      <% end %>
+
       <% if @the_photo.owner_id == @current_user.id %>
         <dt>Edit photo</dt>
         <dl>PLACEHOLDER - Edit photo form</dl>
