@@ -3,50 +3,59 @@ class UserAuthenticationController < ApplicationController
   skip_before_action(:force_user_sign_in, { :only => [:index, :sign_up_form, :create, :sign_in_form, :create_cookie] })
 
   def index
-    render({ :template => "user_authentication/index.html.erb"})
+    render({ :template => "user_authentication/index.html.erb" })
   end
 
   def show
     the_username = params.fetch("path_id")
-    @target_user = User.where({:username => the_username}).first
-    render ({ :template => "user_authentication/show.html.erb"})
+    @target_user = User.where({ :username => the_username }).first
+
+    if @target_user.private
+      if FollowRequest.where({ :status => "accepted", :recipient_id => @target_user.id, :sender_id => @current_user.id }).present?
+        render ({ :template => "user_authentication/show.html.erb" })
+      else
+        redirect_to("/users", { :alert => "You're not authorized for that." })
+      end
+    else
+      render ({ :template => "user_authentication/show.html.erb" })
+    end
   end
 
   def liked_photos
     the_username = params.fetch("path_id")
-    @target_user = User.where({:username => the_username}).first
-    render ({ :template => "user_authentication/liked_photos.html.erb"})
+    @target_user = User.where({ :username => the_username }).first
+    render ({ :template => "user_authentication/liked_photos.html.erb" })
   end
 
   def feed
     the_username = params.fetch("path_id")
-    @target_user = User.where({:username => the_username}).first
-    render ({ :template => "user_authentication/feed.html.erb"})
+    @target_user = User.where({ :username => the_username }).first
+    render ({ :template => "user_authentication/feed.html.erb" })
   end
 
   def discover
     the_username = params.fetch("path_id")
-    @target_user = User.where({:username => the_username}).first
-    render ({ :template => "user_authentication/discover.html.erb"})
+    @target_user = User.where({ :username => the_username }).first
+    render ({ :template => "user_authentication/discover.html.erb" })
   end
-  
+
   def sign_in_form
     render({ :template => "user_authentication/sign_in.html.erb" })
   end
 
   def create_cookie
     user = User.where({ :email => params.fetch("query_email") }).first
-    
+
     the_supplied_password = params.fetch("query_password")
-    
+
     if user != nil
       are_they_legit = user.authenticate(the_supplied_password)
-    
+
       if are_they_legit == false
         redirect_to("/user_sign_in", { :alert => "Incorrect password." })
       else
         session[:user_id] = user.id
-      
+
         redirect_to("/", { :notice => "Signed in successfully." })
       end
     else
@@ -78,13 +87,13 @@ class UserAuthenticationController < ApplicationController
 
     if save_status == true
       session[:user_id] = @user.id
-   
-      redirect_to("/", { :notice => "User account created successfully."})
+
+      redirect_to("/", { :notice => "User account created successfully." })
     else
       redirect_to("/user_sign_up", { :alert => @user.errors.full_messages.to_sentence })
     end
   end
-    
+
   def edit_profile_form
     render({ :template => "user_authentication/edit_profile.html.erb" })
   end
@@ -98,21 +107,20 @@ class UserAuthenticationController < ApplicationController
     @user.username = params.fetch("query_username")
     @user.comments_count = params.fetch("query_comments_count")
     @user.likes_count = params.fetch("query_likes_count")
-    
+
     if @user.valid?
       @user.save
 
-      redirect_to("/", { :notice => "User account updated successfully."})
+      redirect_to("/", { :notice => "User account updated successfully." })
     else
-      render({ :template => "user_authentication/edit_profile_with_errors.html.erb" , :alert => @user.errors.full_messages.to_sentence })
+      render({ :template => "user_authentication/edit_profile_with_errors.html.erb", :alert => @user.errors.full_messages.to_sentence })
     end
   end
 
   def destroy
     @current_user.destroy
     reset_session
-    
+
     redirect_to("/", { :notice => "User account cancelled" })
   end
- 
 end
