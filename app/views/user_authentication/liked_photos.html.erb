@@ -6,17 +6,11 @@
   <dt>Followers</dt>
   <dd>
     <div>
-      received requests: <%=@target_user.received_requests.count%>
-    </div>
-    <div>
-      accepted requests: <%=@target_user.received_requests.accepted_request.count%>
-    </div>
-    <div>
-      followers: <%=@target_user.followers.count%>
+      <%=@target_user.followers.count%>
     </div>
   </dd>
   <dt>Following</dt>
-  <dd>leaders: <%=@target_user.leaders.count%></dd>
+  <dd><%=@target_user.leaders.count%></dd>
 </dl>
 
 <ul>
