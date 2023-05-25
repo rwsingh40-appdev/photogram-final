@@ -65,7 +65,24 @@
 
       <% if @the_photo.owner_id == @current_user.id %>
         <dt>Edit photo</dt>
-        <dl>PLACEHOLDER - Edit photo form</dl>
+        <dd>
+          <form action="/modify_photo/<%=@the_photo.id%>" method="post" class="form-horizontal" enctype="multipart/form-data">
+            <input type="hidden" id="comments_count" name="query_comments_count" value=<%=@the_photo.comments_count%>>
+            <input type="hidden" id="likes_count" name="query_likes_count" value=<%=@the_photo.likes_count%>>
+            <input type="hidden" id="owner_id" name="query_owner_id" value=<%=@current_user.id%>>
+
+            <label for="image">Image URL</label>
+            <input type="file" id="image" name="query_image" class="form-control">
+
+            <label for="caption_box">
+              Caption
+            </label>
+            <textarea id="caption_box" name="query_caption"><%=@the_photo.caption%></textarea>
+            <button>
+              Update photo
+            </button>
+          </form>
+        </dd>
         <dt>Delete photo</dt>
         <dd>
           <a href="/delete_photo/<%= @the_photo.id %>">
