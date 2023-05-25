@@ -24,10 +24,11 @@ class User < ApplicationRecord
   has_many  :received_requests, { :class_name => "FollowRequest", :foreign_key => "recipient_id", :dependent => :destroy }
   has_many  :sent_requests, { :class_name => "FollowRequest", :foreign_key => "sender_id", :dependent => :destroy }
 
-  has_many :followers, { :through => :received_requests, :source => :sender}
-  # has_many :followers, -> { accepted_request }, :through => :received_requests, :source => :sender
+  has_many :accepted_recieved_requests, -> { accepted_request }, { class_name: "FollowRequest", :foreign_key => "recipient_id" , :dependent => :destroy}
+  has_many :accepted_sent_requests, -> {accepted_request}, {class_name: "FollowRequest", :foreign_key => "sender_id", :dependent => :destroy}
 
-  has_many :leaders, { :through => :sent_requests, :source => :recipient }
+  has_many :followers, {:through => :accepted_recieved_requests, :source => :sender}
+  has_many :leaders, { :through => :accepted_sent_requests, :source => :recipient }
 
   validates :username, { :presence => true }
   validates :username, { :uniqueness => true }

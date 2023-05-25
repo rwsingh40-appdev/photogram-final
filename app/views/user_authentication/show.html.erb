@@ -4,16 +4,11 @@
   <dt>Private</dt>
   <dd><%=@target_user.private%></dd>
   <dt>Followers</dt>
-  <dd>
+  <dd>  
     <div>
-      received requests: <%=@target_user.received_requests.count%>
+      <%=@target_user.followers.count%>
     </div>
-    <div>
-      accepted requests: <%=@target_user.received_requests.accepted_request.count%>
-    </div>
-    <div>
-      followers: <%=@target_user.followers.count%>
-    </div>
+
     <div> <!--follow/unfollow for other users and pending follow requests for current user-->
       <% if @target_user == @current_user %>
         <h4>Pending follow requests</h4>
@@ -52,7 +47,7 @@
       </div>
     </dd>
     <dt>Following</dt>
-    <dd>leaders: <%=@target_user.leaders.count%></dd>
+    <dd><%=@target_user.leaders.count%></dd>
     <% if @target_user == @current_user %>
       <dt>Edit user</dt>
       <dd>
